@@ -1,6 +1,6 @@
 // ALL personal content + site config lives here. Every virtual file (src/fs.ts)
 // and every piece of UI is derived from this object, so this is the only file
-// to edit when the content changes. Anything still marked TODO_ is unwritten.
+// to edit when the content changes.
 
 export type Experience = { title: string; company: string };
 export type Project = { name: string; description?: string; url?: string; tech?: string[] }; // only `name` is used in the core build
@@ -66,9 +66,10 @@ export const content: Content = {
   intro: {
     paragraphs: [
       // first paragraph is a greeting, e.g. "Hey, I'm X."
-      "TODO_INTRO_GREETING",
-      "TODO_INTRO_PARAGRAPH_2",
-      "TODO_INTRO_PARAGRAPH_3",
+      "Hey, I'm Abhinav.",
+      "I'm an undergraduate at UC Berkeley studying Computer Science.",
+      "I want to build a career in AI-adjacent roles or startups, working across the stack from fundamental machine learning to applied AI.",
+      "My previous internship was at Northrop Grumman working for the Ground Verification team, and I'm currently recruiting for software engineering roles for Spring and Summer 2027.",
     ],
     cliParagraphs: undefined, // optional different wording for intro.txt; falls back to paragraphs
   },
