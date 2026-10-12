@@ -1,6 +1,4 @@
 import type { Content } from "../content";
-import type { CommandEnv } from "../commands";
-import { buildFs } from "../fs";
 
 // Stand-in content so tests don't depend on whatever is in src/content.ts.
 export const fixture: Content = {
@@ -49,8 +47,3 @@ export const fixture: Content = {
     { label: "GitHub", value: "https://github.com/someone" },
   ],
 };
-
-export const envFor = (c: Content): CommandEnv => ({
-  fs: buildFs(c),
-  welcomeCommands: c.welcome.commandNames,
-});

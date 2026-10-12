@@ -60,6 +60,30 @@ describe("file contents", () => {
     expect(files["education.txt"]).toBe("Test University -- B.S. Testing");
   });
 
+  it("education.txt drops the code column when no course has a code", () => {
+    const { files } = buildFs({
+      ...fixture,
+      coursework: [{ name: "Intro" }, { name: "Linear Algebra", grade: "in progress" }, { name: "Compilers" }],
+    });
+    expect(files["education.txt"].split("\n").slice(3)).toEqual([
+      "Coursework:",
+      "  Intro",
+      "  Linear Algebra   in progress",
+      "  Compilers",
+    ]);
+  });
+
+  it("education.txt keeps columns aligned when only some courses have a code or grade", () => {
+    const { files } = buildFs({
+      ...fixture,
+      coursework: [{ code: "CS 101", name: "Intro", grade: "A" }, { name: "Linear Algebra" }],
+    });
+    expect(files["education.txt"].split("\n").slice(4)).toEqual([
+      "  CS 101 -- Intro            A",
+      "         -- Linear Algebra",
+    ]);
+  });
+
   it("work.txt, research.txt and projects.txt follow their formats", () => {
     expect(built.files["work.txt"]).toBe("Engineer @ Acme\nIntern @ Globex");
     expect(built.files["research.txt"]).toBe("Paper One\n  Lead author\n\nPaper Two\n  Assistant");
@@ -104,9 +128,21 @@ describe("empty sections", () => {
   });
 });
 
-describe("placeholder content", () => {
-  it("builds the full default tree", () => {
-    expect(Object.keys(fs.tree)).toEqual(["about", "experience", "~"]);
-    expect(fs.tree["~"].children).toEqual(["about", "experience", "projects.txt", "contact.txt"]);
+describe("the site's own content", () => {
+  it("builds a tree whose folders and files all resolve", () => {
+    expect(fs.tree["~"].parent).toBeNull();
+    for (const [folder, node] of Object.entries(fs.tree)) {
+      expect(node.children.length).toBeGreaterThan(0);
+      for (const child of node.children) {
+        if (child.includes(".")) expect(fs.files[child]).toBeTruthy();
+        else expect(fs.tree[child].parent).toBe(folder);
+      }
+    }
+  });
+
+  it("gives every file a path from home", () => {
+    const reachable = (dir: string): string[] =>
+      fs.tree[dir].children.flatMap((c) => (fs.tree[c] ? reachable(c) : [c]));
+    expect(reachable("~").sort()).toEqual(Object.keys(fs.files).sort());
   });
 });

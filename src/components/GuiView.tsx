@@ -45,7 +45,10 @@ export function GuiView() {
       <Section title="EXPERIENCE" items={experience.map((e) => `${e.title} @ ${e.company}`)} />
       <Section title="PROJECTS" items={projects.map((p) => p.name)} />
       <Section title="RESEARCH" items={research.map((r) => `${r.title} (${r.role})`)} />
-      <Section title="COURSEWORK" items={coursework.map((c) => `${c.code} — ${c.name} (${c.grade})`)} />
+      <Section
+        title="COURSEWORK"
+        items={coursework.map((c) => `${c.code ? `${c.code} — ` : ""}${c.name}${c.grade ? ` (${c.grade})` : ""}`)}
+      />
       <hr className="tp-hr tp-hr--accent" />
       <footer className="tp-footer">
         © {new Date().getFullYear()} {site.fullName}

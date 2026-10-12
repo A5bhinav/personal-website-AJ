@@ -6,6 +6,9 @@ import { content } from "../content";
 import { fs } from "../fs";
 import { linkify } from "../lib/linkify";
 
+// Render against the fixture, so these tests don't change with src/content.ts.
+vi.mock("../content", async () => ({ content: (await import("./fixture")).fixture }));
+
 const scrollTo = vi.fn();
 
 beforeEach(() => {
@@ -281,6 +284,24 @@ describe("GUI mode with empty sections", () => {
       "EXPERIENCE",
       "COURSEWORK",
     ]);
+  });
+});
+
+describe("GUI mode coursework without codes or grades", () => {
+  afterEach(() => {
+    vi.doUnmock("../content");
+    vi.resetModules();
+  });
+
+  it("shows just the name, plus the grade when there is one", async () => {
+    vi.resetModules();
+    vi.doMock("../content", () => ({
+      content: { ...content, coursework: [{ name: "Intro" }, { name: "Algebra", grade: "in progress" }, { code: "CS 1", name: "Systems" }] },
+    }));
+    const { GuiView } = await import("../components/GuiView");
+    const { container } = render(<GuiView />);
+    const items = [...container.querySelectorAll(".tp-section:last-of-type li")].map((li) => li.textContent);
+    expect(items).toEqual(["Intro", "Algebra (in progress)", "CS 1 — Systems"]);
   });
 });
 

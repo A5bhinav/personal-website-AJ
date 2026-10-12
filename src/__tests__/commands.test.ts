@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { runCommand } from "../commands";
-import { envFor, fixture } from "./fixture";
+import { runCommand, type CommandEnv } from "../commands";
+import type { Content } from "../content";
+import { buildFs } from "../fs";
+import { fixture } from "./fixture";
+
+const envFor = (c: Content): CommandEnv => ({
+  fs: buildFs(c),
+  welcomeCommands: c.welcome.commandNames,
+});
 
 const env = envFor(fixture);
 const { files } = env.fs;

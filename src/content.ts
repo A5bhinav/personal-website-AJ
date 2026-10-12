@@ -1,11 +1,11 @@
 // ALL personal content + site config lives here. Every virtual file (src/fs.ts)
-// and every piece of UI is derived from this object, so filling in the TODO_
-// placeholders is the only edit needed to make the site yours.
+// and every piece of UI is derived from this object, so this is the only file
+// to edit when the content changes. Anything still marked TODO_ is unwritten.
 
 export type Experience = { title: string; company: string };
 export type Project = { name: string; description?: string; url?: string; tech?: string[] }; // only `name` is used in the core build
 export type Research = { title: string; role: string };
-export type Course = { code: string; name: string; grade: string }; // grade may be "in progress"
+export type Course = { name: string; code?: string; grade?: string }; // grade may be "in progress"; code and grade are left out of the page when absent
 export type ContactRow = { label: string; value: string }; // value may be an email or URL
 export type NavLink = { label: string; href: string };
 
@@ -45,23 +45,23 @@ export type Content = {
 // array hides that GUI section and its virtual file (and any folder left empty).
 export const content: Content = {
   site: {
-    tabTitle: "TODO_TAB_TITLE", // <title> of the page
-    fullName: "TODO_FULL_NAME", // GUI heading + footer
-    firstName: "TODO_FIRST_NAME", // "Welcome to {firstName}'s terminal!"
-    promptUser: "guest@TODO_HANDLE", // left part of every prompt line
+    tabTitle: "Abhinav Jinka", // <title> of the page
+    fullName: "Abhinav Jinka", // GUI heading + footer
+    firstName: "Abhinav", // "Welcome to {firstName}'s terminal!"
+    promptUser: "guest@abhinavjinka", // left part of every prompt line
   },
   welcome: {
-    title: "TODO_PANEL_TITLE", // e.g. "yourname.sh" — boxed panel title
+    title: "abhinavjinka.sh", // boxed panel title
     version: "v0.1.0", // shown muted after the title
     metaLine: "zsh · guest session", // first line of the bottom-left meta
-    cwdLabel: "~/TODO_HANDLE", // second line of the meta (indented)
+    cwdLabel: "~/abhinavjinka", // second line of the meta
     commandNames: ["help"], // commands that open the panel
   },
   guiLinks: [
     // row under the name in GUI mode
-    { label: "GitHub", href: "https://github.com/TODO" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/TODO/" },
-    { label: "Email", href: "mailto:TODO@example.com" },
+    { label: "GitHub", href: "https://github.com/A5bhinav" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/abhinavjinka/" },
+    { label: "Email", href: "mailto:abhinavjinka@berkeley.edu" },
   ],
   intro: {
     paragraphs: [
@@ -73,34 +73,58 @@ export const content: Content = {
     cliParagraphs: undefined, // optional different wording for intro.txt; falls back to paragraphs
   },
   education: {
-    school: "TODO_SCHOOL",
-    degree: "TODO_DEGREE",
-    gpaLabel: "GPA", // e.g. "Technical GPA"
-    gpa: "TODO_GPA", // set to undefined to omit the line
+    school: "University of California, Berkeley",
+    degree: "B.A. in Computer Science (Expected May 2028)",
+    gpaLabel: "GPA",
+    gpa: undefined, // no GPA line
   },
   experience: [
-    { title: "TODO_TITLE_1", company: "TODO_COMPANY_1" },
-    { title: "TODO_TITLE_2", company: "TODO_COMPANY_2" },
-    { title: "TODO_TITLE_3", company: "TODO_COMPANY_3" },
+    { title: "Software Engineering Intern", company: "Northrop Grumman" },
+    { title: "Technical Consultant", company: "IBM" },
+    { title: "Data Science Extern", company: "Amazon" },
+    { title: "Software Engineering Intern", company: "Sync Visual Media" },
+    { title: "Software Engineering Intern", company: "Sundt Construction, Inc." },
   ],
   projects: [
-    { name: "TODO_PROJECT_1" },
-    { name: "TODO_PROJECT_2" },
-    { name: "TODO_PROJECT_3" },
+    {
+      name: "GEO Audit",
+      description:
+        "Built a GEO platform automating brand-visibility audits across 5 AI engines, sampling every query 5× through 8 LLM adapters",
+      tech: ["Python", "FastAPI", "Anthropic/OpenAI/Gemini/Perplexity", "Supabase (PostgreSQL)", "Playwright", "Next.js", "Recharts"],
+    },
+    {
+      name: "Live Grid Demand Forecaster",
+      description:
+        "Built a day-ahead CAISO electricity demand forecaster issuing immutable hourly forecasts and scoring them against actuals",
+      tech: ["Python", "LightGBM", "PostgreSQL", "Supabase", "Next.js", "GitHub Actions", "Vercel", "EIA-930 API"],
+    },
+    {
+      name: "Augur",
+      description:
+        "Built a privacy-first context layer for AI agents atop screenpipe's 24/7 OCR capture, ranking 1–2 GB of daily screen data on-device",
+      tech: ["Python", "Screenpipe", "ChromaDB", "Sentence-transformers (MiniLM)", "MCP", "Chrome Extension (MV3)", "Anthropic/OpenAI"],
+    },
+    {
+      name: "WorldCraft",
+      description:
+        "Processed 1K+ multimodal images with Hugging Face transformers to extract intrinsic, extrinsic, and semantic embeddings of images",
+      tech: ["Python", "PyTorch", "NerfStudio", "Hugging Face Transformers", "NeRF", "Multimodal Embeddings", "Point Clouds"],
+    },
   ],
-  research: [
-    { title: "TODO_RESEARCH_TITLE_1", role: "TODO_ROLE_1" },
-    { title: "TODO_RESEARCH_TITLE_2", role: "TODO_ROLE_2" },
-  ],
+  research: [], // none: hides the RESEARCH section and research.txt
   coursework: [
-    { code: "TODO 101", name: "TODO_COURSE_NAME_1", grade: "TODO_GRADE" },
-    { code: "TODO 2020", name: "TODO_COURSE_2", grade: "TODO_GRADE" },
-    { code: "TODO 303", name: "TODO_COURSE_NAME_THREE", grade: "in progress" },
+    { name: "Data Structures & Algorithms" },
+    { name: "Discrete Math & Probability Theory" },
+    { name: "Structure & Interpretation of Programs" },
+    { name: "Great Ideas in Computer Architecture" },
+    { name: "Intro to Machine Learning" },
+    { name: "Linear Algebra & Differential Equations" },
+    { name: "Multivariable Calculus" },
   ],
   contact: [
     // contact.txt rows, in order
-    { label: "Email", value: "TODO@example.com" },
-    { label: "LinkedIn", value: "https://www.linkedin.com/in/TODO/" },
-    { label: "GitHub", value: "https://github.com/TODO" },
+    { label: "Email", value: "abhinavjinka@berkeley.edu" },
+    { label: "LinkedIn", value: "https://www.linkedin.com/in/abhinavjinka/" },
+    { label: "GitHub", value: "https://github.com/A5bhinav" },
   ],
 };

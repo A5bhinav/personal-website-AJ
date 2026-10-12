@@ -29,11 +29,15 @@ function educationText({ education, coursework }: Content): string {
   const lines = [`${education.school} -- ${education.degree}`];
   if (education.gpa !== undefined) lines.push(`${education.gpaLabel}: ${education.gpa}`);
   if (coursework.length > 0) {
-    const maxCode = Math.max(...coursework.map((c) => c.code.length));
+    // The code column appears only if some course has a code; a course with
+    // no grade ends at its name.
+    const maxCode = Math.max(...coursework.map((c) => (c.code ?? "").length));
     const maxName = Math.max(...coursework.map((c) => c.name.length));
     lines.push("", "Coursework:");
     for (const c of coursework) {
-      lines.push(`  ${c.code.padEnd(maxCode)} -- ${c.name.padEnd(maxName)}   ${c.grade}`);
+      const code = maxCode > 0 ? `${(c.code ?? "").padEnd(maxCode)} -- ` : "";
+      const name = c.grade ? `${c.name.padEnd(maxName)}   ${c.grade}` : c.name;
+      lines.push(`  ${code}${name}`);
     }
   }
   return lines.join("\n");
