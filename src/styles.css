@@ -1,0 +1,83 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0a0a0a; }
+
+:root {
+  --tp-bg: #0a0a0a;          /* page */
+  --tp-fg: #c4c4c4;          /* body text, typed commands */
+  --tp-fg-bright: #f2f2f2;   /* prompt user, name, highlighted commands */
+  --tp-muted: #6b6b6b;       /* "%", toggle, bullets, meta, footer */
+  --tp-accent: #dba876;      /* command output, section titles, panel border */
+  --tp-blue: #6ab0f3;        /* directory in prompt */
+  --tp-link: #d0d0d0;        /* links */
+  --tp-rule: #2a2a2a;        /* thin dividers */
+  --tp-claude: #d77757;      /* welcome panel only: border, title, headings, sprite */
+  --tp-error: #e06c75;       /* defined but unused in core (errors use accent like all output) */
+}
+
+/* page + column */
+.tp-page { min-height: 100vh; background: var(--tp-bg); color: var(--tp-fg);
+  font-family: "SF Mono", Consolas, Monaco, "Courier New", monospace; font-size: 12px; line-height: 1.2; }
+.tp-shell { position: relative; max-width: 46rem; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; }
+.tp-shell--cli { min-height: 100vh; padding-top: 9rem; padding-bottom: 2rem; display: flex; flex-direction: column; }
+.tp-shell--gui { padding-top: 9rem; padding-bottom: 5rem; }
+
+/* mode toggle */
+.tp-toggle { position: absolute; top: 8.9rem; right: 1.5rem; background: none; border: none; padding: 0;
+  color: var(--tp-muted); font-family: inherit; font-size: 12px; cursor: pointer; z-index: 10; }
+.tp-toggle:hover { color: var(--tp-fg); }
+
+/* CLI */
+.tp-cli-body { flex: 1; cursor: text; }
+.tp-cli-entry { margin-bottom: .75rem; }
+.tp-prompt-line { display: flex; align-items: center; gap: .5rem; }
+.tp-prompt-user { color: var(--tp-fg-bright); }
+.tp-prompt-tilde { color: var(--tp-blue); }
+.tp-prompt-symbol { color: var(--tp-muted); }
+.tp-cli-output { color: var(--tp-accent); line-height: 1.45; white-space: pre-wrap; }
+.tp-cli-input { flex: 1; background: transparent; border: none; outline: none; color: var(--tp-fg);
+  caret-color: var(--tp-fg); font: inherit; }
+
+/* welcome panel — laid out like Claude Code's startup box */
+.tp-claude { position: relative; display: flex; border: 1px solid var(--tp-claude); border-radius: 6px; margin: .9rem 0 .4rem; }
+.tp-claude-title { position: absolute; top: -.5rem; left: 1rem; padding: 0 .4rem; background: var(--tp-bg);
+  color: var(--tp-claude); font-weight: 700; }
+.tp-claude-left { flex: 0 0 38%; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  gap: 1rem; padding: 1.4rem 1rem 1.1rem; border-right: 1px solid var(--tp-claude); text-align: center; }
+.tp-claude-welcome { color: var(--tp-fg-bright); font-weight: 700; }
+.tp-claude-mascot { display: grid; grid-template-columns: repeat(12, 7px); }
+.tp-px { width: 7px; height: 7px; }
+.tp-px--on { background: var(--tp-claude); }
+.tp-claude-meta { color: var(--tp-muted); line-height: 1.5; }
+.tp-claude-right { flex: 1; min-width: 0; padding: 1.1rem 1.1rem 1rem; }
+.tp-claude-heading { color: var(--tp-claude); font-weight: 700; margin-bottom: .4rem; }
+.tp-claude-row { color: var(--tp-fg); line-height: 1.5; }
+.tp-claude-cmd { color: var(--tp-fg-bright); }
+.tp-claude-sep { border-top: 1px solid var(--tp-claude); margin: .9rem 0; }
+.tp-claude-note { margin-top: .6rem; color: var(--tp-muted); font-style: italic; }
+
+/* GUI */
+.tp-name { color: var(--tp-fg-bright); font-size: 1.15rem; font-weight: 700; margin-bottom: .5rem; }
+.tp-links { display: flex; flex-wrap: wrap; gap: 0 1.25rem; font-size: 12px; margin-bottom: .5rem; }
+.tp-links + .tp-hr { margin-top: 0; }
+.tp-links a.tp-link { color: var(--tp-muted); text-decoration: none; }
+.tp-links a.tp-link:hover { color: var(--tp-fg-bright); text-decoration: underline; }
+.tp-hr { border: none; border-top: 1px solid var(--tp-rule); margin: 1.75rem 0; }
+.tp-hr--accent { border-top-color: var(--tp-accent); }
+.tp-intro p { margin-bottom: 1.1rem; font-size: 12px; line-height: 1.2; }
+.tp-section { margin-bottom: 2.25rem; }
+.tp-section-title { color: var(--tp-accent); font-weight: 700; letter-spacing: .04em; font-size: 12px; margin-bottom: 1rem; }
+.tp-list { list-style: none; font-size: 12px; }
+.tp-list li { position: relative; padding-left: 1.1rem; margin-bottom: .35rem; }
+.tp-list li::before { content: "•"; position: absolute; left: 0; color: var(--tp-muted); }
+a.tp-link { color: var(--tp-link); text-decoration: underline; text-underline-offset: 2px; }
+a.tp-link:hover { color: var(--tp-fg-bright); }
+.tp-muted { color: var(--tp-muted); }
+.tp-footer { margin-top: 3rem; font-size: 12px; color: var(--tp-muted); }
+
+/* mobile */
+@media (max-width: 640px) {
+  .tp-shell--gui, .tp-shell--cli { padding-top: 6rem; }
+  .tp-toggle { top: 5.9rem; right: 1.25rem; }
+  .tp-claude { flex-direction: column; }
+  .tp-claude-left { flex: none; border-right: none; border-bottom: 1px solid var(--tp-claude); }
+}
